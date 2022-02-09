@@ -12,7 +12,6 @@
   "dependencies": {
     "@types/node": "^10.12.18",
     "canvas": "^2.9.0",
-    "merge-images-v2": "^2.0.1",
-    "scale-pixel-art": "^1.1.1"
+    "merge-images-v2": "^2.0.1"
   }
 }
