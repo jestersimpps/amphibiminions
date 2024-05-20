@@ -1,7 +1,7 @@
 export const IMAGE_TYPE = 'png';
 export const BASE_FOLDER = 'layers';
 export const OUTPUT_PATH = 'output';
-export const SCALING_FACTOR = 700;
+export const AMOUNT = 10;
 export const STRUCTURE = {
     bodyFrame: {
         attributeName: 'body',
