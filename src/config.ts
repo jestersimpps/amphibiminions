@@ -3,6 +3,11 @@ export const BASE_FOLDER = 'layers';
 export const OUTPUT_PATH = 'output';
 export const AMOUNT = 10;
 export const STRUCTURE = {
+    // background: {
+    //     attributeName: 'background',
+    //     prefix: 'background',
+    //     rares: []
+    // },
     bodyFrame: {
         attributeName: 'body',
         prefix: 'body',

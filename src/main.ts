@@ -19,9 +19,9 @@ const randomNumber = (min, max) => {
 // Generator class to handle the NFT generation process
 class Generator {
   constructor() {
-    // Clear existing images and generate a new collection of 10 NFTs
+    // Clear existing images and generate a new collection of NFTs
     this.clearImages();
-    this.generateCollection(10);
+    this.generateCollection(AMOUNT);
   }
 
   // Method to clear existing images in the output directory
@@ -56,7 +56,7 @@ class Generator {
       // Get the configuration for the current attribute
       const attributeConfig = STRUCTURE[attributeFolderName];
       // Read the files in the attribute folder
-      const files = fs.readdirSync(`./layers/${attributeFolderName}`);
+      const files = fs.readdirSync(`./${BASE_FOLDER}/${attributeFolderName}`);
       // Filter and map the image files in the folder
       const imageFiles = files
         .filter((f) => f.endsWith(IMAGE_TYPE))
@@ -95,12 +95,12 @@ class Generator {
 
   // Method to generate a collection of NFTs
   async generateCollection(amount: number, removeDuplicates = true) {
-    for (let index = 0; index <= AMOUNT; index++) {
+    for (let index = 1; index <= amount; index++) { // Start index from 1 for sequential naming
       // Generate a combination of traits
       const combination = this.loopTraits();
-      // Combine the traits into a single image
-      await this.combineTraits(combination.traits, combination.combinationId);
-      console.log(combination);
+      // Combine the traits into a single image with sequential file name
+      await this.combineTraits(combination.traits, index.toString());
+      console.log(`Image ${index} created with combination:`, combination);
     }
   }
 }
