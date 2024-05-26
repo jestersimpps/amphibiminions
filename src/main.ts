@@ -1,4 +1,4 @@
-import { IMAGE_TYPE, STRUCTURE, BASE_FOLDER, OUTPUT_PATH, AMOUNT } from "./config";
+import { IMAGE_TYPE, STRUCTURE, BASE_FOLDER, OUTPUT_PATH, AMOUNT, BASE_URL, NAME, OUTPUT_PATH_METADATA } from "./config";
 import * as fs from "fs";
 const Canvas = require("canvas");
 import * as mergeImages from "merge-images-v2";
@@ -31,14 +31,8 @@ class Generator {
       fs.mkdirSync(OUTPUT_PATH);
     }
     // Read the files in the output directory
-    fs.readdir(`./${OUTPUT_PATH}`, (err, files) => {
-      if (err) throw err;
-      // Loop through each file and delete it
-      for (const file of files) {
-        fs.unlink(path.join(OUTPUT_PATH, file), (err) => {
-          if (err) throw err;
-        });
-      }
+    fs.readdirSync(`./${OUTPUT_PATH}`).forEach((file) => {
+      fs.unlinkSync(path.join(OUTPUT_PATH, file));
     });
   }
 
@@ -82,25 +76,49 @@ class Generator {
     const base64Image = mergedImages.split(";base64,").pop();
 
     // Write the merged image to the output directory
-    fs.writeFile(
-      `./output/${outputName}.png`,
+    await fs.promises.writeFile(
+      `./${OUTPUT_PATH}/${outputName}.png`,
       base64Image,
-      { encoding: "base64" },
-      function (err) {
-        if (err) throw err;
-        console.log(`${outputName}.png created`);
-      }
+      { encoding: "base64" }
     );
+    console.log(`${outputName}.png created`);
+  }
+
+  // Method to generate a JSON metadata file for each image
+  async generateJsonFile(index: number, traits: Trait[]) {
+    const attributes = traits.map(trait => ({
+      trait_type: trait.prefix,
+      value: path.basename(trait.fileName, path.extname(trait.fileName))
+    }));
+
+    const jsonContent = {
+      description: `A unique ${NAME} with traits like ${attributes.map(attribute => attribute.value).join(", ")}.`,
+      image: `${BASE_URL}/${index}.${IMAGE_TYPE}`,
+      name: `${NAME} #${index}`,
+      attributes: attributes,
+    };
+
+    if (!fs.existsSync(OUTPUT_PATH_METADATA)) {
+      fs.mkdirSync(OUTPUT_PATH_METADATA);
+    }
+    await fs.promises.writeFile(`${OUTPUT_PATH_METADATA}/${index}.json`, JSON.stringify(jsonContent, null, 2));
+    console.log(`${index}.json created`);
   }
 
   // Method to generate a collection of NFTs
-  async generateCollection(amount: number, removeDuplicates = true) {
+  async generateCollection(amount: number) {
     for (let index = 1; index <= amount; index++) { // Start index from 1 for sequential naming
-      // Generate a combination of traits
-      const combination = this.loopTraits();
-      // Combine the traits into a single image with sequential file name
-      await this.combineTraits(combination.traits, index.toString());
-      console.log(`Image ${index} created with combination:`, combination);
+      try {
+        // Generate a combination of traits
+        const combination = this.loopTraits();
+        // Combine the traits into a single image with sequential file name
+        await this.combineTraits(combination.traits, index.toString());
+        await this.generateJsonFile(index, combination.traits);
+
+        console.log(`Image ${index} created with combination:`, combination);
+      } catch (error) {
+        console.error(`Error generating image ${index}:`, error);
+      }
     }
   }
 }

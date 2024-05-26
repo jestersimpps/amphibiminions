@@ -1,22 +1,17 @@
 export const IMAGE_TYPE = 'png';
 export const BASE_FOLDER = 'layers';
 export const OUTPUT_PATH = 'output';
+export const OUTPUT_PATH_METADATA = 'output_json';
+export const BASE_URL = 'http://example.base.url.com';
+export const NAME = 'FROG';
 export const AMOUNT = 10;
 export const STRUCTURE = {
-    // background: {
-    //     attributeName: 'background',
-    //     prefix: 'background',
-    // },
     bodyFrame: {
         attributeName: 'body',
         prefix: 'body',
     },
     bodyColorMain: {
         attributeName: 'bodycolor',
-        prefix: 'color',
-    },
-    bodyColorSecondary: {
-        attributeName: 'accentcolor',
         prefix: 'color',
     },
     mouth: {
@@ -35,10 +30,4 @@ export const STRUCTURE = {
         attributeName: 'headcover',
         prefix: 'hat',
     },
-    // special: {
-    //     attributeName: 'special',
-    //     prefix: 'special',
-    // },
-
-
 }

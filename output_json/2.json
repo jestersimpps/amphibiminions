@@ -1,0 +1,31 @@
+{
+  "description": "A unique FROG with traits like body1, color3, mouth11, eyes4, eyes16, hat22.",
+  "image": "https://lime-annual-cicada-507.mypinata.cloud/ipfs/QmRV6uSAKkRrd3aGxEVjeXLS9DcjUDDxXeHtNrm31yCiqs/2.png",
+  "name": "FROG #2",
+  "attributes": [
+    {
+      "trait_type": "body",
+      "value": "body1"
+    },
+    {
+      "trait_type": "color",
+      "value": "color3"
+    },
+    {
+      "trait_type": "mouth",
+      "value": "mouth11"
+    },
+    {
+      "trait_type": "eyes",
+      "value": "eyes4"
+    },
+    {
+      "trait_type": "eyes",
+      "value": "eyes16"
+    },
+    {
+      "trait_type": "hat",
+      "value": "hat22"
+    }
+  ]
+}
