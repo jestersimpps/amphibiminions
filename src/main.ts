@@ -106,4 +106,4 @@ class Generator {
 }
 
 // Instantiate the Generator class to start the NFT generation process
-const generator = new Generator();
+new Generator();
